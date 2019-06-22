@@ -7,6 +7,11 @@ const iconList = ["fa fa-diamond", "fa fa-paper-plane-o",
     "fa fa-diamond", "fa fa-paper-plane-o",
     "fa fa-anchor", "fa fa-bolt", "fa fa-cube",
     "fa fa-leaf", "fa fa-bicycle", "fa fa-bomb"];
+let stars = document.querySelectorAll('.fa-star');
+let p = document.createElement('p');
+p.className = 'congrats'
+p.textContent = "Congratulations! You Won";
+
 /*
  * Display the cards on the page
  *   - shuffle the list of cards using the provided "shuffle" method below
@@ -14,20 +19,6 @@ const iconList = ["fa fa-diamond", "fa fa-paper-plane-o",
  *   - add each card's HTML to the page
  */
 
-function setGame(){
-    let shuffledIcon = shuffle(iconList);
-
-    const cards = document.querySelectorAll('.card');
-
-    for (let i = 0; i < shuffledIcon.length; i++){
-        let icon = document.createElement('i');
-        icon.setAttribute('class', shuffledIcon[i]);
-        cards[i].innerHTML = icon.outerHTML;
-    }
-}
-
-
-setGame();
 // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
     let currentIndex = array.length, temporaryValue, randomIndex;
@@ -43,6 +34,25 @@ function shuffle(array) {
     return array;
 }
 
+function setGame(){
+
+    let shuffledIcon = shuffle(iconList);
+
+    const cards = document.querySelectorAll('.card');
+
+    for (let i = 0; i < shuffledIcon.length; i++){
+        let icon = document.createElement('i');
+        icon.setAttribute('class', shuffledIcon[i]);
+        cards[i].innerHTML = icon.outerHTML;
+    }
+    for (let star of stars){
+        star.style.display = 'none';
+    }
+}
+
+setGame();
+
+
 
 /*
  * set up the event listener for a card. If a card is clicked:
@@ -54,17 +64,23 @@ function shuffle(array) {
  *    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
  *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
  */
+// Retrieve the card deck element
 const cardDeck = document.querySelector('.deck');
+// variable to count game moves
 let moveCount = 0;
+// array to hold currently open cards
 let openCards = [];
+// array to hold matched cards
 let match = [];
+
+// Retrieve the move element and the restart element.
 const moves = document.querySelector('.moves');
 const restart = document.querySelector('.restart');
 
-restart.addEventListener('click', repeat);
-
+// add event listener to the card deck
+cardDeck.addEventListener('click', f);
 function f(e){
-
+    //check that a card item or an unmatched card item is clicked
     if (e.target.nodeName === "LI" && e.target.className === "card"){
         displayCard(e.target);
         verifyCards();
@@ -74,39 +90,45 @@ function f(e){
 
 
 }
-cardDeck.addEventListener('click', f);
 
 
+//this function takes a card parameter and displays it.
 function displayCard(card){
-    card.setAttribute('class', 'card show transition');
+    card.setAttribute('class', 'card show open');
     addCard(card);
 }
 
+//this function stores the open cards in an array
 function addCard(card) {
     openCards.push(card);
-    console.log(openCards.length)
 }
 
+//this function checks the open card for a match and returns a boolean.
 function checkCard() {
     return (openCards[0].firstElementChild.className === openCards[1].firstElementChild.className)
 }
 
+//this function verifies the cards and opens them if it a match
 function verifyCards() {
     if (openCards.length === 2){
         let test = checkCard();
         if (test){
             match.push(...openCards);
-            openCards[0].className = 'card match transition';
-            openCards[1].className = 'card match transition';
+            for (let card of openCards){
+                card.className = 'card match';
+            }
             openCards = [];
         } else {
-            setTimeout(closeCards, 500);
+            //animates the cards then close them.
+            animate();
+            setTimeout(closeCards, 1000);
 
         }
         countMoves();
     }
 }
 
+//closes all open cards and empties the array
 function closeCards() {
     for (let card of openCards){
         card.className = 'card';
@@ -114,6 +136,14 @@ function closeCards() {
     openCards = [];
 }
 
+//animates the cards
+function animate() {
+    for (let card of openCards){
+        card.className = 'card open show unmatch';
+    }
+}
+
+//closes all matched cards at the end of the game
 function  closeAll() {
     for (let card of match){
         card.className = 'card';
@@ -121,27 +151,50 @@ function  closeAll() {
     match = [];
 }
 
+//counts the number of moves
 function countMoves() {
     moveCount++;
     moves.textContent = moveCount;
 }
 
+//checks if the match has been won
 function checkWin() {
     return match.length === 16;
 }
 
+//Displays a message when the game is won
 function announceWinner() {
     if (checkWin()){
         cardDeck.style.display = 'none';
-        let p = document.createElement('p');
-        p.textContent = "Congratulations! You Won";
-        p.style.fontSize = '4em';
+        p.setAttribute("style", "")
         cardDeck.parentElement.appendChild(p);
+
+        if (moveCount <= 16){
+            showStars(3);
+        } else if (moveCount < 32){
+            showStars(2);
+        } else {
+            showStars(1);
+        }
     }
 }
+
+restart.addEventListener('click', repeat);
+
+//Resets all values and restarts the game
 function repeat() {
     moves.textContent = '0';
+    moveCount = 0;
     closeCards();
     closeAll();
     setGame();
+    cardDeck.setAttribute('style', '');
+    p.style.display = 'none';
+}
+
+//displays the number of stars for the player
+function showStars(count) {
+    for (let i = 0; i < (count); i++){
+        stars[i].setAttribute('style', '');
+    }
 }
