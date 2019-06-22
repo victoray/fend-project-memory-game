@@ -107,3 +107,8 @@ h1 {
     float: right;
     cursor: pointer;
 }
+
+.transition {
+    -webkit-transition-duration: 0.9s;
+    -webkit-animation: ease-out;
+}
