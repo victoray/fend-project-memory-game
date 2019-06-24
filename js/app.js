@@ -10,7 +10,9 @@ const iconList = ["fa fa-diamond", "fa fa-paper-plane-o",
     "fa fa-leaf", "fa fa-bicycle", "fa fa-bomb"];
 
 let stars = document.querySelectorAll('.fa-star');
-
+let gameCount = 0;
+let score = 0;
+let tBody = document.querySelector('.tablebody');
 /*
  * Display the cards on the page
  *   - shuffle the list of cards using the provided "shuffle" method below
@@ -51,6 +53,9 @@ function setGame() {
         star.setAttribute('style', '');
     }
 
+    gameCount++;
+
+
 }
 
 setGame();
@@ -75,6 +80,7 @@ let openCards = [];
 // array to hold matched cards
 let match = [];
 
+
 let clock;
 //initialize the clock
 clock = $('.clock').FlipClock({
@@ -92,7 +98,7 @@ cardDeck.addEventListener('click', f);
 
 function f(e) {
     //check that a card item or an unmatched card item is clicked
-    if (e.target.nodeName === "LI" && e.target.className === "card") {
+    if (e.target.nodeName === "LI" && e.target.className === "card" && openCards.length <= 2) {
         showStars();
         displayCard(e.target);
         verifyCards();
@@ -191,6 +197,18 @@ function announceWinner() {
         movesFinal.textContent = `${moveCount} moves`;
         $('#myModal').modal('show')
 
+        if (gameCount !== 0) {
+            tBody.parentElement.setAttribute('style', '');
+            let tRow = `<tr>
+                            <th scope="row">${gameCount}</th>
+                            <td>${score}</td>
+                            <td>${moveCount}</td>
+                            <td>${time.textContent}</td>
+                        </tr>`;
+            tBody.insertAdjacentHTML('beforeend', tRow);
+
+        }
+
     }
 }
 
@@ -208,17 +226,20 @@ function repeat() {
     closeAll();
     setGame();
     cardDeck.setAttribute('style', '');
-    p.style.display = 'none';
 }
 
 //displays the number of stars for the player
 function showStars() {
+    let count;
     if (moveCount < 16 && clock.getTime().time < 60) {
         count = 3;
+        score = 60;
     } else if (moveCount < 32 && clock.getTime().time < 300) {
         count = 2;
+        score = 40;
     } else {
         count = 1;
+        score = 10;
     }
     for (let i = 0; i < (stars.length - count); i++) {
         stars[i].setAttribute('style', 'display: none');
@@ -244,9 +265,13 @@ function getTime() {
     if (hours === 0 && minutes === 0) {
         return `${seconds} Seconds`;
     } else if (hours === 0) {
-        return `${minutes} ${(minutes === 1) ? "Minute" : "Minutes"}, ${seconds} ${(seconds === 1) ? "Second" : "Seconds"}`;
+        return `${minutes} ${(minutes === 1) ? "Minute" : "Minutes"}, ${seconds} ${(seconds === 1 || seconds === 0) ? "Second" : "Seconds"}`;
     } else {
         return `${hours}:${minutes}:${seconds}`;
     }
 
+}
+
+if (tBody.firstElementChild === null){
+    tBody.parentElement.setAttribute('style', 'display: none');
 }
