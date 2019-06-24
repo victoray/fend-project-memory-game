@@ -1,0 +1,7 @@
+{
+  "name": "fend-project-memory-game",
+  "version": "1.0.0",
+  "dependencies": {
+    "flipclock": "latest"
+  }
+}

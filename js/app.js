@@ -1,3 +1,7 @@
+
+
+
+
 /*
  * Create a list that holds all of your cards
  */
@@ -45,9 +49,7 @@ function setGame(){
         icon.setAttribute('class', shuffledIcon[i]);
         cards[i].innerHTML = icon.outerHTML;
     }
-    for (let star of stars){
-        star.style.display = 'none';
-    }
+
 }
 
 setGame();
@@ -73,17 +75,29 @@ let openCards = [];
 // array to hold matched cards
 let match = [];
 
+let clock;
+clock = $('.clock').FlipClock({
+    clockFace: 'HourlyCounter'
+});
+console.log('clock')
+clock.stop();
+
 // Retrieve the move element and the restart element.
 const moves = document.querySelector('.moves');
 const restart = document.querySelector('.restart');
+restart.addEventListener('click', repeat);
 
 // add event listener to the card deck
 cardDeck.addEventListener('click', f);
 function f(e){
     //check that a card item or an unmatched card item is clicked
     if (e.target.nodeName === "LI" && e.target.className === "card"){
+        showStars();
         displayCard(e.target);
         verifyCards();
+        if (moveCount === 0 ){
+            clock.start();
+        }
         checkWin();
         announceWinner();
     }
@@ -154,7 +168,7 @@ function  closeAll() {
 //counts the number of moves
 function countMoves() {
     moveCount++;
-    moves.textContent = moveCount;
+    moves.textContent = moveCount === 1 ? `${moveCount} Move` : `${moveCount} Moves`;
 }
 
 //checks if the match has been won
@@ -165,26 +179,27 @@ function checkWin() {
 //Displays a message when the game is won
 function announceWinner() {
     if (checkWin()){
-        cardDeck.style.display = 'none';
-        p.setAttribute("style", "")
-        cardDeck.parentElement.appendChild(p);
+        clock.stop();
+        const starGame = document.querySelector('.stars');
+        const starFinal = document.querySelector('#starfinal');
+        const movesFinal = document.querySelector('.movesFinal');
+        const time = document.querySelector('#time');
+        time.textContent = getTime();
+        starFinal.appendChild(starGame);
+        movesFinal.textContent = `${moveCount} moves`;
+        $('#myModal').modal('show')
 
-        if (moveCount <= 16){
-            showStars(3);
-        } else if (moveCount < 32){
-            showStars(2);
-        } else {
-            showStars(1);
-        }
     }
 }
 
-restart.addEventListener('click', repeat);
+
 
 //Resets all values and restarts the game
 function repeat() {
     moves.textContent = '0';
     moveCount = 0;
+    clock.stop();
+    clock.reset();
     closeCards();
     closeAll();
     setGame();
@@ -193,8 +208,36 @@ function repeat() {
 }
 
 //displays the number of stars for the player
-function showStars(count) {
-    for (let i = 0; i < (count); i++){
-        stars[i].setAttribute('style', '');
+function showStars() {
+    if (moveCount < 16){
+        count = 3;
+    } else if (moveCount < 32){
+        count = 2;
+    } else {
+        count = 1;
     }
+    for (let i = 0; i < (stars.length - count); i++){
+        stars[i].setAttribute('style', 'display: none');
+    }
+}
+
+
+
+function timer() {
+    clock.start();
+}
+
+function getTime() {
+    let hours = Math.floor(clock.getTime().time / 3600);
+    let minutes = Math.floor((clock.getTime().time % 3600) / 60);
+    let seconds = Math.floor((clock.getTime().time % 3600) % 60);
+
+    if (hours === 0 && minutes === 0){
+        return `${seconds} Seconds`;
+    } else if (hours === 0){
+        return `${minutes} ${(minutes === 1) ?"Minute" : "Minutes"}, ${seconds} ${(seconds === 1)? "Second" : "Seconds"}`;
+    } else {
+        return `${hours}:${minutes}:${seconds}`;
+    }
+
 }

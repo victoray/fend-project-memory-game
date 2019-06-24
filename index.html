@@ -4,84 +4,159 @@
     <meta charset="utf-8">
     <title>Matching Game</title>
     <meta name="description" content="">
+
+    <link rel="stylesheet" href="flipclock/flipclock.css">
     <link rel="stylesheet prefetch" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet prefetch" href="https://fonts.googleapis.com/css?family=Coda">
+
     <link rel="stylesheet" href="css/app.css">
+
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+
+
 </head>
 <body>
 
-    <div class="container">
+<div class="container-fluid">
+    <div class="d-flex justify-content-center">
         <header>
-            <h1>Matching Game</h1>
+            <h1><strong>Matching Game</strong></h1>
         </header>
-
-        <section class="score-panel">
-        	<ul class="stars">
-        		<li><i class="fa fa-star"></i></li>
-        		<li><i class="fa fa-star"></i></li>
-        		<li><i class="fa fa-star"></i></li>
-        	</ul>
-
-        	<span class="moves">0</span> Move(s)
-
-            <div class="restart">
-        		<i class="fa fa-repeat"></i>
-                Restart
-        	</div>
-        </section>
-
-        <ul class="deck">
-            <li class="card">
-                <i class="fa fa-diamond"></i>
-            </li>
-            <li class="card">
-                <i class="fa fa-paper-plane-o"></i>
-            </li>
-            <li class="card">
-                <i class="fa fa-anchor"></i>
-            </li>
-            <li class="card">
-                <i class="fa fa-bolt"></i>
-            </li>
-            <li class="card">
-                <i class="fa fa-cube"></i>
-            </li>
-            <li class="card">
-                <i class="fa fa-anchor"></i>
-            </li>
-            <li class="card">
-                <i class="fa fa-leaf"></i>
-            </li>
-            <li class="card">
-                <i class="fa fa-bicycle"></i>
-            </li>
-            <li class="card">
-                <i class="fa fa-diamond"></i>
-            </li>
-            <li class="card">
-                <i class="fa fa-bomb"></i>
-            </li>
-            <li class="card">
-                <i class="fa fa-leaf"></i>
-            </li>
-            <li class="card">
-                <i class="fa fa-bomb"></i>
-            </li>
-            <li class="card">
-                <i class="fa fa-bolt"></i>
-            </li>
-            <li class="card">
-                <i class="fa fa-bicycle"></i>
-            </li>
-            <li class="card">
-                <i class="fa fa-paper-plane-o"></i>
-            </li>
-            <li class="card">
-                <i class="fa fa-cube"></i>
-            </li>
-        </ul>
     </div>
 
-    <script src="js/app.js"></script>
+    <div class="d-flex justify-content-center">
+        <div class="d-flex justify-content-between score-panel">
+            <ul class="stars">
+                <li><i class="fa fa-star"></i></li>
+                <li><i class="fa fa-star"></i></li>
+                <li><i class="fa fa-star"></i></li>
+            </ul>
+
+            <span style="font-size: 22px" class="moves text-monospace">0</span>
+
+
+            <div class="restart">
+                <i class=" fa fa-repeat"></i> <span class="text-monospace" style="font-size: 22px">Restart</span>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="d-flex justify-content-center">
+        <div class="">
+            <div class="clock" style="margin:2em;"></div>
+        </div>
+    </div>
+
+    <div class="d-flex justify-content-center">
+        <div class="">
+            <div class="d-flex justify-content-center">
+                <div class="container">
+                    <ul class="deck">
+                        <li class="card">
+                            <i class="fa fa-diamond"></i>
+                        </li>
+                        <li class="card">
+                            <i class="fa fa-paper-plane-o"></i>
+                        </li>
+                        <li class="card">
+                            <i class="fa fa-anchor"></i>
+                        </li>
+                        <li class="card">
+                            <i class="fa fa-bolt"></i>
+                        </li>
+                        <li class="card">
+                            <i class="fa fa-cube"></i>
+                        </li>
+                        <li class="card">
+                            <i class="fa fa-anchor"></i>
+                        </li>
+                        <li class="card">
+                            <i class="fa fa-leaf"></i>
+                        </li>
+                        <li class="card">
+                            <i class="fa fa-bicycle"></i>
+                        </li>
+                        <li class="card">
+                            <i class="fa fa-diamond"></i>
+                        </li>
+                        <li class="card">
+                            <i class="fa fa-bomb"></i>
+                        </li>
+                        <li class="card">
+                            <i class="fa fa-leaf"></i>
+                        </li>
+                        <li class="card">
+                            <i class="fa fa-bomb"></i>
+                        </li>
+                        <li class="card">
+                            <i class="fa fa-bolt"></i>
+                        </li>
+                        <li class="card">
+                            <i class="fa fa-bicycle"></i>
+                        </li>
+                        <li class="card">
+                            <i class="fa fa-paper-plane-o"></i>
+                        </li>
+                        <li class="card">
+                            <i class="fa fa-cube"></i>
+                        </li>
+                    </ul>
+
+                    <div id="myModal" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog"
+                         aria-labelledby="myLargeModalLabel"
+                    >
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-body modal-content">
+                                <div class="container-fluid">
+                                    <div class="congrats d-flex justify-content-center">
+                                        <h1>CONGRATULATIONS! YOU WON</h1>
+                                    </div>
+                                    <div class="d-flex justify-content-between">
+                                        <h6>Time: </h6>
+                                        <span id="time">0</span>
+                                    </div>
+                                    <div class="d-flex justify-content-between">
+
+                                        <h6>Stars: </h6>
+
+                                        <div id="starfinal" class="align-self-end score-panel">
+                                        </div>
+                                    </div>
+                                    <div class="d-flex justify-content-between">
+                                        <h6>Moves: </h6>
+                                        <p><span class="movesFinal"></span></p>
+                                    </div>
+                                    <div class="d-flex justify-content-center restart">
+                                        <a class="btn btn btn-primary" href="" onclick="restart">New Game</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+</div>
+
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+<script src="flipclock/flipclock.js"></script>
+<script src="js/app.js"></script>
 </body>
 </html>
