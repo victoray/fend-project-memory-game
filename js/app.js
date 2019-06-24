@@ -1,20 +1,15 @@
-
-
-
-
 /*
  * Create a list that holds all of your cards
  */
+
 const iconList = ["fa fa-diamond", "fa fa-paper-plane-o",
     "fa fa-anchor", "fa fa-bolt", "fa fa-cube",
     "fa fa-leaf", "fa fa-bicycle", "fa fa-bomb",
     "fa fa-diamond", "fa fa-paper-plane-o",
     "fa fa-anchor", "fa fa-bolt", "fa fa-cube",
     "fa fa-leaf", "fa fa-bicycle", "fa fa-bomb"];
+
 let stars = document.querySelectorAll('.fa-star');
-let p = document.createElement('p');
-p.className = 'congrats'
-p.textContent = "Congratulations! You Won";
 
 /*
  * Display the cards on the page
@@ -38,22 +33,27 @@ function shuffle(array) {
     return array;
 }
 
-function setGame(){
+//initialize the game
+function setGame() {
 
     let shuffledIcon = shuffle(iconList);
 
     const cards = document.querySelectorAll('.card');
 
-    for (let i = 0; i < shuffledIcon.length; i++){
+    for (let i = 0; i < shuffledIcon.length; i++) {
         let icon = document.createElement('i');
         icon.setAttribute('class', shuffledIcon[i]);
         cards[i].innerHTML = icon.outerHTML;
     }
 
+    //reset the card at the beginning of the game
+    for (let star of stars) {
+        star.setAttribute('style', '');
+    }
+
 }
 
 setGame();
-
 
 
 /*
@@ -76,10 +76,10 @@ let openCards = [];
 let match = [];
 
 let clock;
+//initialize the clock
 clock = $('.clock').FlipClock({
     clockFace: 'HourlyCounter'
 });
-console.log('clock')
 clock.stop();
 
 // Retrieve the move element and the restart element.
@@ -89,13 +89,14 @@ restart.addEventListener('click', repeat);
 
 // add event listener to the card deck
 cardDeck.addEventListener('click', f);
-function f(e){
+
+function f(e) {
     //check that a card item or an unmatched card item is clicked
-    if (e.target.nodeName === "LI" && e.target.className === "card"){
+    if (e.target.nodeName === "LI" && e.target.className === "card") {
         showStars();
         displayCard(e.target);
         verifyCards();
-        if (moveCount === 0 ){
+        if (moveCount === 0) {
             clock.start();
             showStarTimer();
         }
@@ -108,7 +109,7 @@ function f(e){
 
 
 //this function takes a card parameter and displays it.
-function displayCard(card){
+function displayCard(card) {
     card.setAttribute('class', 'card show open');
     addCard(card);
 }
@@ -125,11 +126,11 @@ function checkCard() {
 
 //this function verifies the cards and opens them if it a match
 function verifyCards() {
-    if (openCards.length === 2){
+    if (openCards.length === 2) {
         let test = checkCard();
-        if (test){
+        if (test) {
             match.push(...openCards);
-            for (let card of openCards){
+            for (let card of openCards) {
                 card.className = 'card match';
             }
             openCards = [];
@@ -145,7 +146,7 @@ function verifyCards() {
 
 //closes all open cards and empties the array
 function closeCards() {
-    for (let card of openCards){
+    for (let card of openCards) {
         card.className = 'card';
     }
     openCards = [];
@@ -153,14 +154,14 @@ function closeCards() {
 
 //animates the cards
 function animate() {
-    for (let card of openCards){
+    for (let card of openCards) {
         card.className = 'card open show unmatch';
     }
 }
 
 //closes all matched cards at the end of the game
-function  closeAll() {
-    for (let card of match){
+function closeAll() {
+    for (let card of match) {
         card.className = 'card';
     }
     match = [];
@@ -179,14 +180,14 @@ function checkWin() {
 
 //Displays a message when the game is won
 function announceWinner() {
-    if (checkWin()){
+    if (checkWin()) {
         clock.stop();
         const starGame = document.querySelector('.stars');
         const starFinal = document.querySelector('#starfinal');
         const movesFinal = document.querySelector('.movesFinal');
         const time = document.querySelector('#time');
         time.textContent = getTime();
-        starFinal.appendChild(starGame);
+        starFinal.innerHTML = starGame.outerHTML;
         movesFinal.textContent = `${moveCount} moves`;
         $('#myModal').modal('show')
 
@@ -194,10 +195,9 @@ function announceWinner() {
 }
 
 
-
 //Resets all values and restarts the game
 function repeat() {
-    if ($('#myModal').is(':visible')){
+    if ($('#myModal').is(':visible')) {
         $('#myModal').modal('hide');
     }
     moves.textContent = '0';
@@ -213,35 +213,38 @@ function repeat() {
 
 //displays the number of stars for the player
 function showStars() {
-    if (moveCount < 16 && clock.getTime().time < 60){
+    if (moveCount < 16 && clock.getTime().time < 60) {
         count = 3;
-    } else if (moveCount < 32 && clock.getTime().time < 300){
+    } else if (moveCount < 32 && clock.getTime().time < 300) {
         count = 2;
     } else {
         count = 1;
     }
-    for (let i = 0; i < (stars.length - count); i++){
+    for (let i = 0; i < (stars.length - count); i++) {
         stars[i].setAttribute('style', 'display: none');
     }
 }
+
+//displays stars according to time spent on the game
 function showStarTimer() {
     setInterval(showStars, 1000);
 }
 
-
+//start the clock
 function timer() {
     clock.start();
 }
 
+//returns time in a readable format
 function getTime() {
     let hours = Math.floor(clock.getTime().time / 3600);
     let minutes = Math.floor((clock.getTime().time % 3600) / 60);
     let seconds = Math.floor((clock.getTime().time % 3600) % 60);
 
-    if (hours === 0 && minutes === 0){
+    if (hours === 0 && minutes === 0) {
         return `${seconds} Seconds`;
-    } else if (hours === 0){
-        return `${minutes} ${(minutes === 1) ?"Minute" : "Minutes"}, ${seconds} ${(seconds === 1)? "Second" : "Seconds"}`;
+    } else if (hours === 0) {
+        return `${minutes} ${(minutes === 1) ? "Minute" : "Minutes"}, ${seconds} ${(seconds === 1) ? "Second" : "Seconds"}`;
     } else {
         return `${hours}:${minutes}:${seconds}`;
     }
