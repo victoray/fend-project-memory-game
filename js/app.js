@@ -97,6 +97,7 @@ function f(e){
         verifyCards();
         if (moveCount === 0 ){
             clock.start();
+            showStarTimer();
         }
         checkWin();
         announceWinner();
@@ -196,6 +197,9 @@ function announceWinner() {
 
 //Resets all values and restarts the game
 function repeat() {
+    if ($('#myModal').is(':visible')){
+        $('#myModal').modal('hide');
+    }
     moves.textContent = '0';
     moveCount = 0;
     clock.stop();
@@ -209,9 +213,9 @@ function repeat() {
 
 //displays the number of stars for the player
 function showStars() {
-    if (moveCount < 16){
+    if (moveCount < 16 && clock.getTime().time < 60){
         count = 3;
-    } else if (moveCount < 32){
+    } else if (moveCount < 32 && clock.getTime().time < 300){
         count = 2;
     } else {
         count = 1;
@@ -220,7 +224,9 @@ function showStars() {
         stars[i].setAttribute('style', 'display: none');
     }
 }
-
+function showStarTimer() {
+    setInterval(showStars, 1000);
+}
 
 
 function timer() {
