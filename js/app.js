@@ -2,6 +2,7 @@
  * Create a list that holds all of your cards
  */
 
+//array of icons
 const iconList = ["fa fa-diamond", "fa fa-paper-plane-o",
     "fa fa-anchor", "fa fa-bolt", "fa fa-cube",
     "fa fa-leaf", "fa fa-bicycle", "fa fa-bomb",
@@ -9,9 +10,10 @@ const iconList = ["fa fa-diamond", "fa fa-paper-plane-o",
     "fa fa-anchor", "fa fa-bolt", "fa fa-cube",
     "fa fa-leaf", "fa fa-bicycle", "fa fa-bomb"];
 
+//retrieve the star icons from the page
 let stars = document.querySelectorAll('.fa-star');
-let gameCount = 0;
-let score = 0;
+
+//the table body
 let tBody = document.querySelector('.tablebody');
 /*
  * Display the cards on the page
@@ -79,7 +81,8 @@ let moveCount = 0;
 let openCards = [];
 // array to hold matched cards
 let match = [];
-
+let gameCount = 0;
+let score = 0;
 
 let clock;
 //initialize the clock
@@ -91,6 +94,8 @@ clock.stop();
 // Retrieve the move element and the restart element.
 const moves = document.querySelector('.moves');
 const restart = document.querySelector('.restart');
+
+// add event listener to the restart icon
 restart.addEventListener('click', repeat);
 
 // add event listener to the card deck
@@ -119,15 +124,9 @@ function displayCard(card) {
     card.setAttribute('class', 'card show open');
     addCard(card);
 }
-
 //this function stores the open cards in an array
 function addCard(card) {
     openCards.push(card);
-}
-
-//this function checks the open card for a match and returns a boolean.
-function checkCard() {
-    return (openCards[0].firstElementChild.className === openCards[1].firstElementChild.className)
 }
 
 //this function verifies the cards and opens them if it a match
@@ -149,6 +148,14 @@ function verifyCards() {
         countMoves();
     }
 }
+
+
+//this function checks the open card for a match and returns a boolean.
+function checkCard() {
+    return (openCards[0].firstElementChild.className === openCards[1].firstElementChild.className)
+}
+
+
 
 //closes all open cards and empties the array
 function closeCards() {
@@ -176,7 +183,7 @@ function closeAll() {
 //counts the number of moves
 function countMoves() {
     moveCount++;
-    moves.textContent = moveCount === 1 ? `${moveCount} Move` : `${moveCount} Moves`;
+    moves.textContent = (moveCount === 1) ? `${moveCount} Move` : `${moveCount} Moves`;
 }
 
 //checks if the match has been won
@@ -188,15 +195,22 @@ function checkWin() {
 function announceWinner() {
     if (checkWin()) {
         clock.stop();
+        //retrieve the star element from the page
         const starGame = document.querySelector('.stars');
+        //star element in the modal
         const starFinal = document.querySelector('#starfinal');
+        //retrieve the move element
         const movesFinal = document.querySelector('.movesFinal');
+        //retrieve the time element
         const time = document.querySelector('#time');
         time.textContent = getTime();
+        //show the stars earned on the modal
         starFinal.innerHTML = starGame.outerHTML;
-        movesFinal.textContent = `${moveCount} moves`;
+        // show the moves on the modal
+        movesFinal.textContent = `${moveCount} Moves`;
         $('#myModal').modal('show')
 
+        //show the score table after the first game
         if (gameCount !== 0) {
             tBody.parentElement.setAttribute('style', '');
             let tRow = `<tr>
@@ -248,7 +262,7 @@ function showStars() {
 
 //displays stars according to time spent on the game
 function showStarTimer() {
-    setInterval(showStars, 1000);
+    setInterval(showStars, 60000);
 }
 
 //start the clock
@@ -272,6 +286,7 @@ function getTime() {
 
 }
 
+//checks if the table is empty and hides it
 if (tBody.firstElementChild === null){
     tBody.parentElement.setAttribute('style', 'display: none');
 }

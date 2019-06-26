@@ -1,20 +1,19 @@
 # Memory Game Project
+A Browser Based Matching Game. There's a deck of cards with different icons. 
 
-## Table of Contents
+## Project Link
 
-* [Instructions](#instructions)
-* [Contributing](#contributing)
+* [Memory Game](https://victoray.github.io/fend-project-memory-game/)
 
 ## Instructions
 
-The starter project has some HTML and CSS styling to display a static version of the Memory Game project. You'll need to convert this project from a static project to an interactive one. This will require modifying the HTML and CSS files, but primarily the JavaScript file.
+To win the game find all the matching pairs, the faster you find them the higher your score.
 
-To get started, open `js/app.js` and start building out the app's functionality
+## Built With
 
-For specific, detailed instructions, look at the project instructions in the [Udacity Classroom](https://classroom.udacity.com/me).
+* JavaScript, HTML and CSS.
+* Bootstrap
+* Flipclock JS
 
-## Contributing
-
-This repository is the starter code for _all_ Udacity students. Therefore, we most likely will not accept pull requests.
-
-For details, check out [CONTRIBUTING.md](CONTRIBUTING.md).
+## Browsers
+Supports all modern browsers.
