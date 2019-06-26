@@ -38,6 +38,9 @@ function shuffle(array) {
 }
 
 //initialize the game
+
+let gameCount = 0;
+let score = 0;
 function setGame() {
 
     let shuffledIcon = shuffle(iconList);
@@ -81,8 +84,6 @@ let moveCount = 0;
 let openCards = [];
 // array to hold matched cards
 let match = [];
-let gameCount = 0;
-let score = 0;
 
 let clock;
 //initialize the clock
