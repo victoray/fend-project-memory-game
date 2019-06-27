@@ -1,26 +1,16 @@
-/*
- * Create a list that holds all of your cards
- */
+"use strict";
 
 //array of icons
 const iconList = ["fa fa-diamond", "fa fa-paper-plane-o",
     "fa fa-anchor", "fa fa-bolt", "fa fa-cube",
-    "fa fa-leaf", "fa fa-bicycle", "fa fa-bomb",
-    "fa fa-diamond", "fa fa-paper-plane-o",
-    "fa fa-anchor", "fa fa-bolt", "fa fa-cube",
     "fa fa-leaf", "fa fa-bicycle", "fa fa-bomb"];
 
 //retrieve the star icons from the page
-let stars = document.querySelectorAll('.fa-star');
+const stars = document.querySelectorAll('.fa-star');
 
 //the table body
-let tBody = document.querySelector('.tablebody');
-/*
- * Display the cards on the page
- *   - shuffle the list of cards using the provided "shuffle" method below
- *   - loop through each card and create its HTML
- *   - add each card's HTML to the page
- */
+const tBody = document.querySelector('.tablebody');
+
 
 // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
@@ -43,7 +33,7 @@ let gameCount = 0;
 let score = 0;
 function setGame() {
 
-    let shuffledIcon = shuffle(iconList);
+    const shuffledIcon = shuffle(iconList.concat(iconList));
 
     const cards = document.querySelectorAll('.card');
 
@@ -66,16 +56,6 @@ function setGame() {
 setGame();
 
 
-/*
- * set up the event listener for a card. If a card is clicked:
- *  - display the card's symbol (put this functionality in another function that you call from this one)
- *  - add the card to a *list* of "open" cards (put this functionality in another function that you call from this one)
- *  - if the list already has another card, check to see if the two cards match
- *    + if the cards do match, lock the cards in the open position (put this functionality in another function that you call from this one)
- *    + if the cards do not match, remove the cards from the list and hide the card's symbol (put this functionality in another function that you call from this one)
- *    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
- *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
- */
 // Retrieve the card deck element
 const cardDeck = document.querySelector('.deck');
 // variable to count game moves
@@ -100,11 +80,11 @@ const restart = document.querySelector('.restart');
 restart.addEventListener('click', repeat);
 
 // add event listener to the card deck
-cardDeck.addEventListener('click', f);
+cardDeck.addEventListener('click', onClick);
 
-function f(e) {
+function onClick(e) {
     //check that a card item or an unmatched card item is clicked
-    if (e.target.nodeName === "LI" && e.target.className === "card" && openCards.length <= 2) {
+    if (e.target.nodeName === "LI" && e.target.className === "card" && openCards.length < 2) {
         showStars();
         displayCard(e.target);
         verifyCards();
@@ -246,10 +226,10 @@ function repeat() {
 //displays the number of stars for the player
 function showStars() {
     let count;
-    if (moveCount < 16 && clock.getTime().time < 60) {
+    if (moveCount < 16) {
         count = 3;
         score = 60;
-    } else if (moveCount < 32 && clock.getTime().time < 300) {
+    } else if (moveCount < 32) {
         count = 2;
         score = 40;
     } else {
@@ -289,5 +269,6 @@ function getTime() {
 
 //checks if the table is empty and hides it
 if (tBody.firstElementChild === null){
+    console.log('done');
     tBody.parentElement.setAttribute('style', 'display: none');
 }

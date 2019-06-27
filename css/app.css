@@ -82,7 +82,7 @@ body {
  * Styles for the Score Panel
  */
 .score-panel {
-  text-align: right;
+  text-align: left;
   width: 345px;
   margin-bottom: 10px;
 }
@@ -121,9 +121,42 @@ body {
   animation: focus-in-contract-bck 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
 }
 
-@media only screen and (max-device-width: 1000px) {
-  .congrats h1 {
-    font-size: 1.5em;
+@media screen and (max-width: 350px) {
+  .deck {
+    width: 90%;
+  }
+
+  .deck .card {
+    height: 65px;
+    width: 65px;
+  }
+
+  #myModal .container-fluid {
+    font-size: 22px;
+  }
+}
+@media screen and (min-width: 350px) and (max-width: 600px) {
+  .deck {
+    width: 350px;
+    min-height: 350px;
+    padding: 10px;
+  }
+
+  .deck .card {
+    height: 75px;
+    width: 75px;
+  }
+}
+@media screen and (min-width: 600px) and (max-width: 768px) {
+  .deck {
+    width: 500px;
+    min-height: 500px;
+    padding: 20px;
+  }
+
+  .deck .card {
+    height: 100px;
+    width: 100px;
   }
 }
 /* ----------------------------------------------
@@ -178,10 +211,10 @@ body {
 }
 @keyframes jello-diagonal-2 {
   0% {
-    transform: skew(0deg 0deg);
+    transform: skew(0deg, 0deg);
   }
   30% {
-    transform: skew(-25deg -25deg);
+    transform: skew(-25deg, -25deg);
   }
   40% {
     transform: skew(15deg, 15deg);
