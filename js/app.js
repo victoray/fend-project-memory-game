@@ -38,7 +38,7 @@ function setGame() {
     const cards = document.querySelectorAll('.card');
 
     for (let i = 0; i < shuffledIcon.length; i++) {
-        let icon = document.createElement('i');
+        const icon = document.createElement('i');
         icon.setAttribute('class', shuffledIcon[i]);
         cards[i].innerHTML = icon.outerHTML;
     }
@@ -90,7 +90,6 @@ function onClick(e) {
         verifyCards();
         if (moveCount === 0) {
             clock.start();
-            showStarTimer();
         }
         checkWin();
         announceWinner();
@@ -103,18 +102,13 @@ function onClick(e) {
 //this function takes a card parameter and displays it.
 function displayCard(card) {
     card.setAttribute('class', 'card show open');
-    addCard(card);
-}
-//this function stores the open cards in an array
-function addCard(card) {
     openCards.push(card);
 }
 
 //this function verifies the cards and opens them if it a match
 function verifyCards() {
     if (openCards.length === 2) {
-        let test = checkCard();
-        if (test) {
+        if (checkCard()) {
             match.push(...openCards);
             for (let card of openCards) {
                 card.className = 'card match';
@@ -133,7 +127,7 @@ function verifyCards() {
 
 //this function checks the open card for a match and returns a boolean.
 function checkCard() {
-    return (openCards[0].firstElementChild.className === openCards[1].firstElementChild.className)
+    return (openCards[0].firstElementChild.className === openCards[1].firstElementChild.className);
 }
 
 
@@ -189,7 +183,7 @@ function announceWinner() {
         starFinal.innerHTML = starGame.outerHTML;
         // show the moves on the modal
         movesFinal.textContent = `${moveCount} Moves`;
-        $('#myModal').modal('show')
+        $('#myModal').modal('show');
 
         //show the score table after the first game
         if (gameCount !== 0) {
@@ -241,16 +235,6 @@ function showStars() {
     }
 }
 
-//displays stars according to time spent on the game
-function showStarTimer() {
-    setInterval(showStars, 60000);
-}
-
-//start the clock
-function timer() {
-    clock.start();
-}
-
 //returns time in a readable format
 function getTime() {
     let hours = Math.floor(clock.getTime().time / 3600);
@@ -269,6 +253,5 @@ function getTime() {
 
 //checks if the table is empty and hides it
 if (tBody.firstElementChild === null){
-    console.log('done');
     tBody.parentElement.setAttribute('style', 'display: none');
 }

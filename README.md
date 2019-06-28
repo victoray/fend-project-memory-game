@@ -14,6 +14,8 @@ To win the game find all the matching pairs, the faster you find them the higher
 * JavaScript, HTML and CSS.
 * Bootstrap
 * Flipclock JS
+* JQuery
+* FontAwesome
 
 ## Browsers
 Supports all modern browsers.
